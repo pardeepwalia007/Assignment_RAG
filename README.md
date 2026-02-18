@@ -124,3 +124,6 @@ MCP server builds:
 
 ### Step 3: Ask Question
 LangGraph determines execution path.
+
+
+![Agentic RAG LangGraph Flow](agentic_rag_langgraph.png)
