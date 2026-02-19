@@ -149,19 +149,40 @@ LangGraph determines the appropriate execution path and produces a structured re
 
 ### Prerequisites
 
-- Python 3.10 or 3.11
-- Ollama installed and running locally
-- An Ollama model pulled (example: `qwen2.5:14b-instruct-q5_K_M`)
+- Python 3.10 or 3.11  
+- Ollama installed locally  
+- A compatible Ollama instruct model pulled  
+
+Example model used during development:
+
+```
+qwen2.5:14b-instruct-q5_K_M
+```
+
+You may use another instruct-capable model if preferred.
+
+---
 
 ### Installation
+
+Create and activate a virtual environment:
 
 ```bash
 python -m venv venv
 source venv/bin/activate
+```
+
+Install dependencies:
+
+```bash
 pip install -r requirements.txt
 ```
 
+---
+
 ### Start Ollama
+
+Ensure Ollama is running and the required model is available:
 
 ```bash
 ollama serve
@@ -174,29 +195,36 @@ ollama pull qwen2.5:14b-instruct-q5_K_M
 
 ### Option A: Streamlit UI (Recommended)
 
-Terminal 1:
+Start the FastAPI backend:
 
 ```bash
 uvicorn Code.api:app --reload --host 127.0.0.1 --port 8000
 ```
 
-Terminal 2:
+In a separate terminal, launch the Streamlit interface:
 
 ```bash
 streamlit run Code/ui.py
 ```
 
-Open:
+Open in your browser:
 
 ```
 http://localhost:8501
 ```
 
-Upload required files and begin querying through the chat interface.
+Upload:
+- customers.csv  
+- tickets.csv  
+- Policy PDF files (optional)  
+
+You can then begin querying through the chat interface.
 
 ---
 
 ### Option B: MCP CLI Test
+
+To validate the MCP server and orchestration without the UI:
 
 ```bash
 python -m Code.test_mcp
@@ -204,10 +232,10 @@ python -m Code.test_mcp
 
 This validates:
 
-- MCP session creation
-- SQL execution
-- Document retrieval
-- LangGraph routing
+- MCP session creation  
+- SQL execution  
+- Document retrieval  
+- LangGraph routing logic  
 
 ---
 
@@ -215,16 +243,18 @@ This validates:
 
 ### Endpoint
 
-POST `/query`
+```
+POST /query
+```
 
 ### Request Format
 
 Multipart form data containing:
 
-- `question` (string)
-- `customers_csv` (file)
-- `tickets_csv` (file)
-- `pdf_files` (optional list of PDF files)
+- `question` (string)  
+- `customers_csv` (file)  
+- `tickets_csv` (file)  
+- `pdf_files` (optional list of PDF files)  
 
 ### Example
 
@@ -240,20 +270,22 @@ curl -X POST "http://127.0.0.1:8000/query" \
 
 ## 10. Demonstration Queries
 
-1. Basic RAG  
-   "What is the standard delivery timeframe for domestic shipments?"
+The following queries demonstrate core system capabilities:
 
-2. Basic SQL  
-   "How many total tickets does Ema Patel have in her history?"
+### Basic RAG
+"What is the standard delivery timeframe for domestic shipments?"
 
-3. Hybrid Query  
-   "Does Ema Patel have any open refund tickets, and what is the processing timeline for them?"
+### Basic SQL
+"How many total tickets does Ema Patel have in her history?"
 
-4. Calculation  
-   "What is the average satisfaction score for all Closed tickets?"
+### Hybrid Query
+"Does Ema Patel have any open refund tickets, and what is the processing timeline for them?"
 
-5. Edge Case  
-   "What is the policy for shipping to Mars?"
+### Calculation
+"What is the average satisfaction score for all Closed tickets?"
+
+### Edge Case
+"What is the policy for shipping to Mars?"
 
 ---
 
@@ -263,17 +295,17 @@ This project runs entirely locally and does not require external API keys.
 
 Ensure:
 
-- Ollama is running
-- The selected model is available
-- Port 8000 is available for FastAPI
-- Port 8501 is available for Streamlit
+- Ollama is running  
+- The selected model is available  
+- Port 8000 is free for FastAPI  
+- Port 8501 is free for Streamlit  
 
 ---
 
 ## 12. Limitations
 
-- Designed for synthetic or demonstration datasets
-- In-memory session store (not production persistent)
-- Local LLM execution via Ollama
-- Vector index stored locally
+- Designed for synthetic or demonstration datasets  
+- Uses an in-memory session store (not persistent)  
+- Runs a local LLM via Ollama  
+- Vector index is stored locally  
 
